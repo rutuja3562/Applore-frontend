@@ -36,16 +36,6 @@ export const Rezor = () => {
   }, 0);
 
   let sum = total - saved;
-  let data = {
-    paymentid: payData,
-    amount: sum,
-  };
-  useEffect(() => {
-    console.log("object");
-    if (data.payData != "") {
-      dispatch(addOrder(data));
-    }
-  }, []);
 
   async function displayRazorpay() {
     const res = await loadScript(
@@ -62,7 +52,6 @@ export const Rezor = () => {
         method: "POST",
       }
     ).then((t) => t.json());
-    // console.log("data...", data);
 
     const options = {
       // key: "rzp_test_IMNRoKWg4hTR5R",//old
@@ -76,7 +65,12 @@ export const Rezor = () => {
       handler: function (response) {
         setPayData(response.razorpay_payment_id);
         alert("PAYMENT ID ::" + response.razorpay_payment_id);
-        navigate("/");
+        const paymentdata = {
+          paymentid: response.razorpay_payment_id,
+          amount: sum,
+        };
+        dispatch(addOrder(paymentdata));
+        // navigate("/");
       },
 
       prefill: {
@@ -92,12 +86,20 @@ export const Rezor = () => {
   return (
     <div>
       <Button
-        variant={"outline"}
+        variant={"solid"}
+        _hover={{ bg: "#84c225" }}
+        _expanded={{ bg: "#84c225" }}
+        _focus={{ boxShadow: "#e8e8e8" }}
+        focusBorderColor="#e8e8e8"
+        colorScheme="white"
+        errorBorderColor="#e8e8e8"
+        borderRadius="0"
+        borderWidth="0.025px"
         bg="#84c225"
-        color={"white"}
+        mt="1rem"
         onClick={displayRazorpay}
       >
-        purchace
+        Place Order & Pay
       </Button>
       <br />
     </div>
