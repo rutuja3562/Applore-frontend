@@ -70,7 +70,7 @@ export const Rezor = () => {
           amount: sum,
         };
         dispatch(addOrder(paymentdata));
-        // navigate("/");
+        navigate("/");
       },
 
       prefill: {
