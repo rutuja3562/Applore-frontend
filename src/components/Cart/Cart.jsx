@@ -219,7 +219,23 @@ export const Cart = () => {
                 </Heading>
               </Flex>
               <Box float={"right"}>
-                <Rezor />
+                {/*  <Rezor />*/}
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    if (cart.length !== 0) {
+                      navigate("/checkout");
+                    } else {
+                      alert(
+                        "Your Cart is Empty, Please Add items into cart and after check it out"
+                      );
+                      navigate("/product");
+                    }
+                  }}
+                >
+                  {" "}
+                  CheckOut
+                </Button>
               </Box>
             </Box>
           </Flex>
