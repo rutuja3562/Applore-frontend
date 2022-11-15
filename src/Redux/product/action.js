@@ -17,14 +17,16 @@ export const fetchDataAction = (data) => {
 
 export const fetchData = (payload) => (dispatch) => {
   return axios
+    // .get("http://localhost:7005/vegetables", {
     .get("https://rbigbasket.herokuapp.com/vegetables", {
       params: {
         ...payload,
       },
     })
     .then((res) => {
-      // console.log("..res..", res.data);
-      dispatch(fetchDataAction(res.data));
+      console.log("...single..res...",res);
+
+      dispatch(fetchDataAction(res.data.vegetables));
     })
     .catch((e) => console.log("UU", e));
 };

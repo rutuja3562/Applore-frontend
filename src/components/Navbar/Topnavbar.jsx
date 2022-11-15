@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -22,6 +22,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CartLength } from "../CartLength";
 import { LogedIn } from "../Login/LogedIn";
+import axios from "axios";
 
 // import {Link as RouterLink} from "react-router-dom"
 
@@ -29,6 +30,26 @@ export const Topnavbar = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.products.cart);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [login, setLogin] = useState(true);
+  const [inputvalue, setInputValue] = useState("");
+
+  const handleSearch = () => {
+    if (inputvalue !== "") {
+      axios
+        .get(`https://rbigbasket.herokuapp.com/vegetables?search=${inputvalue}`)
+        .then((res) => {
+          console.log(res.data.vegetables[0]._id);
+          // getSearchProduct(res.data.vegetables[0].)
+          // <ProductComponent />;
+          navigate(`/products/${res.data.vegetables[0]._id}`);
+          // navigate("/payment");
+          // <Link to={`/products/${res.data.vegetables[0]._id}`}></Link>
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
   return (
     <Box width={"75%"} margin="auto">
       <Box>
@@ -100,6 +121,9 @@ export const Topnavbar = () => {
                     errorBorderColor="#84c225"
                     borderRadius="0"
                     borderWidth="0.025px"
+                    value={inputvalue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                
                   />
                   <Button
                     _hover={{ bg: "white" }}
@@ -116,6 +140,8 @@ export const Topnavbar = () => {
                     color="white"
                     padding={"2.5px"}
                     ml="-1px"
+                    onClick={handleSearch}
+
                   >
                     <SearchIcon />
                   </Button>

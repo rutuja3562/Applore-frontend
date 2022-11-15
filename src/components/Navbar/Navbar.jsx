@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { Box, Flex, Text, Button, Input } from "@chakra-ui/react";
 import { PhoneIcon, SearchIcon } from "@chakra-ui/icons";
 import { ImLocation2 } from "react-icons/im";
@@ -6,10 +6,31 @@ import { AiOutlineUser } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Signup } from "../Signup/Signup";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 export const Navbar = () => {
   const cart = useSelector((state) => state.products.cart);
   const [login, setLogin] = useState(true);
+  const [inputvalue, setInputValue] = useState("");
+const navigate = useNavigate()
+  const handleSearch = () => {
+    if (inputvalue !== "") {
+      axios
+        .get(`http://localhost:7005/vegetables?search=${inputvalue}`)
+        .then((res) => {
+          console.log(res.data.vegetables[0]._id);
+          // getSearchProduct(res.data.vegetables[0].)
+          // <ProductComponent />;
+          navigate(`/products/${res.data.vegetables[0]._id}`);
+          // navigate("/payment");
+          // <Link to={`/products/${res.data.vegetables[0]._id}`}></Link>
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
   return (
     <Box width="75%" margin={"auto"} border="3px solid black">
       <Box width="40%" float={"right"} border={"1px solid blue"}>
@@ -41,7 +62,7 @@ export const Navbar = () => {
                 <AiOutlineUser size="16px" />
               </Box>
               <Box>
-              <Signup/>
+                <Signup />
               </Box>
             </Flex>
           </Box>

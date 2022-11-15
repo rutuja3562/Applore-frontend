@@ -6,6 +6,7 @@
 .pnp.js
 /data.js
 /db.json
+./rough.js
 # testing
 /coverage
 
